@@ -11,7 +11,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/optimized", multer().single("file"), async (req, res) => {
-  console.log(req.file, req.body);
   await sharp(req.file.buffer)
     .resize(512, 512)
     .jpeg({ quality: 80 })
