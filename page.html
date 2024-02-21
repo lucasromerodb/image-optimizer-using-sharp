@@ -6,19 +6,27 @@
     <title>Image Optimizer</title>
   </head>
   <body>
+    <a href="https://github.com/lucasromerodb/image-optimizer-using-sharp">GitHub repo</a>
     <h1>Image optimizer</h1>
     <form id="form" action="/api/upload" enctype="multipart/form-data" method="post">
       <input type="file" id="file" name="file" title="Select image" accept="image/*" onchange="showPreview(event)" />
       <br /><br />
-      <button type="submit">🌈 Optimize image</button>
-      <hr />
-      <p>Preview before optimization:</p>
-      <img id="filePreview" src="#" alt="your image" />
+      <button type="submit">🌈 Get optimized image</button>
     </form>
+    <h2>Preview before optimization</h2>
+    <p id="fileInfo"></p>
+    <img id="filePreview" alt="preview" />
     <script>
+      const formatFileSize = function (bytes) {
+        const sufixes = ["B", "kB", "MB", "GB", "TB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sufixes[i]}`;
+      };
       const showPreview = (event) => {
-        var preview = document.getElementById("filePreview");
+        const preview = document.getElementById("filePreview");
+        const fileInfo = document.getElementById("fileInfo");
         preview.src = URL.createObjectURL(event.target.files[0]);
+        fileInfo.innerHTML = "File size: " + formatFileSize(event.target.files[0].size);
         preview.onload = function () {
           URL.revokeObjectURL(preview.src); // free memory
         };
