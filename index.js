@@ -10,10 +10,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/page.html"));
 });
 
-app.post("/api/upload", multer().single("file"), async (req, res) => {
+app.post("/api/optimized", multer().single("file"), async (req, res) => {
   console.log(req.file, req.body);
   await sharp(req.file.buffer)
-    .resize(256, 256)
+    .resize(512, 512)
     .jpeg({ quality: 80 })
     .toBuffer()
     .then((data) => res.type("jpeg").send(data));
