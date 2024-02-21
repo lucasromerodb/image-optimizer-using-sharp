@@ -8,10 +8,21 @@
   <body>
     <h1>Image optimizer</h1>
     <form id="form" action="/api/upload" enctype="multipart/form-data" method="post">
-      <input type="file" id="file" name="file" title="Select image" />
-      <br />
-      <br />
-      <button type="submit">SAVE</button>
+      <input type="file" id="file" name="file" title="Select image" accept="image/*" onchange="showPreview(event)" />
+      <br /><br />
+      <button type="submit">🌈 Optimize image</button>
+      <hr />
+      <p>Preview before optimization:</p>
+      <img id="filePreview" src="#" alt="your image" />
     </form>
+    <script>
+      const showPreview = (event) => {
+        var preview = document.getElementById("filePreview");
+        preview.src = URL.createObjectURL(event.target.files[0]);
+        preview.onload = function () {
+          URL.revokeObjectURL(preview.src); // free memory
+        };
+      };
+    </script>
   </body>
 </html>
